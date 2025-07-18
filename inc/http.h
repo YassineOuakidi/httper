@@ -90,4 +90,5 @@ void handle_php(int client_fd , struct request req);
 
 
 void free_mat(char **mat);
+void free_req(struct request req);
 #endif

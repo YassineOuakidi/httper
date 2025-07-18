@@ -25,6 +25,7 @@ void get_resp(int client_fd , struct request req)
 	}
 	char *url = ft_strjoin("/templates" , req.url);
 	int tmp_fd = open(url + 1 , O_RDONLY );
+	
 	printf("tmp_fd : %d\n" , tmp_fd);
 	if(tmp_fd == -1 || *(url + ft_strlen(url) - 1) =='/')
 	{

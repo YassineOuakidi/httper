@@ -102,10 +102,21 @@ void handle_php(int client_fd , struct request req)
     	snprintf(buf_gateway, sizeof(buf_gateway), "%s", "FastCGI/1.0");
     	snprintf(buf_request_method, sizeof(buf_request_method),  "%s",req.method == POST ? "POST" : "GET");
     	snprintf(buf_query_string, sizeof(buf_query_string), "%s", req.query_string ? req.query_string : NULL);
-	snprintf(buf_cookie , sizeof(buf_cookie) , "%s" , req.cookie ? polish(req.cookie) : NULL);
+
+	char *tmp_cookie;
+	if(req.cookie)
+		tmp_cookie = polish(req.cookie);
+
+	snprintf(buf_cookie , sizeof(buf_cookie) , "%s" , req.cookie ? tmp_cookie : NULL);
+	if(req.cookie)
+		free(tmp_cookie);
+
     	snprintf(buf_server_protocol, sizeof(buf_server_protocol), "%s", "HTTP/1.1");
-	snprintf(buf_content_len , sizeof(buf_content_len) , "%s" , ft_itoa(req.content_len));
-	printf("here\n");
+
+	char *tmp_len = ft_itoa(req.content_len);
+	snprintf(buf_content_len , sizeof(buf_content_len) , "%s" , tmp_len);
+	free(tmp_len);
+
 	if(req.content_type)
 		snprintf(buf_content_type , sizeof(buf_content_type) , "%s" , req.content_type ? polish(req.content_type) : NULL);
 	printf("here2\n");
@@ -152,5 +163,5 @@ void handle_php(int client_fd , struct request req)
 	char *resp = fcgi_read_response(serv.fcgi_fd , client_fd);
 	
 	send_resp(client_fd , resp);
-
+	
 }

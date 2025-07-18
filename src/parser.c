@@ -2,19 +2,6 @@
 
 #include "../inc/http.h"
 
-void free_mat(char **mat)
-{
-	if(!mat)
-		return;
-	size_t i = 0;
-	while(mat[i])
-	{
-		free(mat[i]);
-		i++;
-	}
-	free(mat);
-	return ;
-}
 
 void parse_body(char *buffer , struct request *req)
 {
@@ -56,7 +43,10 @@ void get_method_url_querystr(struct request *req , char *str)
 	size_t i=1;
 	while(url_splited[i])
 	{
-		req->query_string = ft_strjoin(req->query_string , url_splited[i]);
+		char *tmp_join = ft_strdup(req->query_string);
+		free(req->query_string);
+		req->query_string = ft_strjoin(tmp_join , url_splited[i]);
+		free(tmp_join);
 		i++;
 	}
 	free_mat(splited);
