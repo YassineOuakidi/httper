@@ -46,6 +46,8 @@ void fcgi_send_begin_request()
     		1,             // flags = 0 (close connection) flags = 1 (keep alive)
     		0, 0, 0, 0, 0  // reserved[5]
 	};
+
+	printf("FCGI_FD :::::::::: %d\n" , serv.fcgi_fd);
 	
 	send(serv.fcgi_fd , fcgi_begin_request , 16 , 0);
 
