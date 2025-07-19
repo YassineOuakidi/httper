@@ -101,18 +101,12 @@ myHTTP/
 
 Based on a comprehensive code analysis, the `myHTTP` project has several areas that require attention for improved stability, security, and performance. Key issues include:
 
-*   **Memory Management:** Significant memory leaks have been identified, particularly in request parsing and handling, which can lead to resource exhaustion and Denial of Service (DoS) under prolonged use or heavy load.
-*   **Security Vulnerabilities:**
+*   **Security Vulnerabilities:(Working on this at the moment)**
     *   **Injection Risks:** Potential for Path Traversal and Command Injection due to insufficient input validation and sanitization, especially concerning URL handling and PHP-CGI interaction.
     *   **Broken Authentication/Session Management:** Lack of secure cookie handling mechanisms makes the server vulnerable to session hijacking and CSRF.
     *   **Cross-Site Scripting (XSS):** Insufficient output encoding can lead to reflected XSS vulnerabilities.
     *   **Insecure Design:** Fixed-size buffers for form data can lead to buffer overflows, and the extensive use of global state (`serv` struct) complicates concurrency and testing.
-*   **Performance Bottlenecks:** Inefficient string operations, blocking `sleep` calls for PHP-CGI startup, and potential blocking I/O in `read_req` can limit scalability and responsiveness.
-*   **Code Quality and Maintainability:** Inconsistent naming conventions, magic numbers/strings, limited error reporting, and lack of comprehensive testing hinder readability, maintainability, and debugging.
-*   **Resource Management:** Potential for file descriptor leaks and improper process management (zombie processes) for PHP-CGI children.
-
-**It is strongly recommended to review the `myHTTP_analysis_report.pdf` for a detailed breakdown of these issues and proposed solutions before deploying this server in a production environment.**
-
+      
 ## Contributing
 
 Contributions are welcome! If you find a bug or have an idea for an improvement, please open an issue or submit a pull request. Please ensure your code adheres to the project's coding style and includes appropriate tests.
