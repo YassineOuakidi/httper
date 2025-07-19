@@ -79,7 +79,6 @@ struct request parse_req(char *buff);
 void parse_body(char *buffer , struct request *req);
 void process_formdata(struct request **req);
 void process_urlencoded(struct request **req);
-void process_json(struct request **req);
 
 void response(int client_fd , struct request req);
 void send_template(int client_fd);

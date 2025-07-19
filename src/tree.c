@@ -12,8 +12,6 @@ void send_tree(int client_fd , char *url)
         	send_error(client_fd);
         	return;
     	}
-	printf("url : %s\n" , url );
-
     	char *dir_name = ft_strjoin(cwd, url);
     	DIR *dir = opendir(dir_name);
     	if (!dir)
@@ -37,7 +35,6 @@ void send_tree(int client_fd , char *url)
 
         	char *entry_name  = ft_strdup(entry->d_name);
 		char *path_name = ft_strjoin(url , entry_name);
-		printf("pathname : %s\n" , path_name);
 		if (entry->d_name[0] == '.')
         		continue;
 		

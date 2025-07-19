@@ -27,9 +27,6 @@ void process_body(struct request *req)
 		process_formdata(&req);
 	else if(strncmp(req->content_type , "application/x-www-form-urlencoded" , ft_strlen("application/x-www-form-urlencoded") ) == 0)
 		process_urlencoded(&req);
-	else if(strncmp(req->content_type , "application/json" , ft_strlen("application/json")) == 0)
-		process_json(&req);
-	
 }
 
 int process_req(int client_fd)

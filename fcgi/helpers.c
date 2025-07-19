@@ -93,7 +93,6 @@ void fcgi_send_params(char **params , int params_count)
 
 void fcgi_send_stdin(char *stdin_data , int stdin_length)
 {
-	printf("stdin data : %s\n\n\n\n" , stdin_data);
 	unsigned char fcgi_stdin_header[8] = {
     		1, 5,          // version = 1, type = 5 (FCGI_STDIN)
     		0, 1,          // requestId = 1

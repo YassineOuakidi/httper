@@ -130,10 +130,6 @@ struct request parse_req(char *buff)
 		
 	}
 	
-	if(!req.query_string)
-	{
-		printf("query string is  null \n");
-	}
 	get_mime_type(&req , req.url);
 	
 	return req;

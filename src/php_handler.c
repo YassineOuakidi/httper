@@ -119,7 +119,6 @@ void handle_php(int client_fd , struct request req)
 
 	if(req.content_type)
 		snprintf(buf_content_type , sizeof(buf_content_type) , "%s" , req.content_type ? polish(req.content_type) : NULL);
-	printf("here2\n");
 	char *docroot = ft_strjoin( getenv("PWD") , "/templates");
 
 

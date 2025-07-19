@@ -19,6 +19,6 @@ char *read_req(int client_fd)
 	char * buffer = malloc( BUFF_SIZE );
 	
 	read(client_fd , buffer , BUFF_SIZE );
-	printf("=============header==============\n%s=============================" , buffer);
+	printf("=============header==============\n%s=============================\n" , buffer);
 	return buffer;
 }

@@ -101,7 +101,3 @@ void process_formdata(struct request **req)
 }
 
 
-void process_json(struct request **req)
-{
-	
-}

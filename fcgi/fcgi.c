@@ -44,7 +44,6 @@ int fcgi_send_request(int fcgi_fd , unsigned short request_id , char **params , 
 	{
 		fcgi_send_stdin(stdin_data , stdin_length);
 	}
-	printf("ending\n");
 }
 
 char *fcgi_read_response(int fcgi_fd, int client_fd) {
