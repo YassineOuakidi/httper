@@ -111,7 +111,4 @@ Based on a comprehensive code analysis, the `myHTTP` project has several areas t
 
 Contributions are welcome! If you find a bug or have an idea for an improvement, please open an issue or submit a pull request. Please ensure your code adheres to the project's coding style and includes appropriate tests.
 
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
 
