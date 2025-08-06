@@ -49,7 +49,7 @@ void fcgi_send_begin_request()
 
 	printf("FCGI_FD :::::::::: %d\n" , serv.fcgi_fd);
 	
-	send(serv.fcgi_fd , fcgi_begin_request , 16 , 0);
+	send(serv.fcgi_fd , fcgi_begin_request , 16 , MSG_NOSIGNAL);
 
 }
 
@@ -77,8 +77,8 @@ void fcgi_send_params(char **params , int params_count)
 
 		if(content_len>0)
 		{
-			send(serv.fcgi_fd , fcgi_params_header , 8 , 0);
-			send(serv.fcgi_fd , buffer , content_len , 0 );
+			send(serv.fcgi_fd , fcgi_params_header , 8 , MSG_NOSIGNAL);
+			send(serv.fcgi_fd , buffer , content_len , MSG_NOSIGNAL );
 		}
 		free(buffer);
 		i+=2;
@@ -90,11 +90,12 @@ void fcgi_send_params(char **params , int params_count)
         	0,      // paddingLength
         	0       // reserved
     	};
-    	send(serv.fcgi_fd, empty_params, 8, 0);
+    	send(serv.fcgi_fd, empty_params, 8, MSG_NOSIGNAL);
 }
 
 void fcgi_send_stdin(char *stdin_data , int stdin_length)
 {
+	//printf("========stdin data===========\n%s\n==============================\n");
 	unsigned char fcgi_stdin_header[8] = {
     		1, 5,          // version = 1, type = 5 (FCGI_STDIN)
     		0, 1,          // requestId = 1
@@ -105,15 +106,15 @@ void fcgi_send_stdin(char *stdin_data , int stdin_length)
 	fcgi_stdin_header[4] = (stdin_length >> 8) & 0xFF;
 	fcgi_stdin_header[5] = stdin_length & 0xFF;
 	
-	send(serv.fcgi_fd , fcgi_stdin_header , 8 , 0);
+	send(serv.fcgi_fd , fcgi_stdin_header , 8 , MSG_NOSIGNAL);
 
-	send(serv.fcgi_fd , stdin_data , stdin_length , 0);
+	send(serv.fcgi_fd , stdin_data , stdin_length , MSG_NOSIGNAL);
 	
 	fcgi_stdin_header[4] = 0;
 
 	fcgi_stdin_header[5] = 0;
 
-	send(serv.fcgi_fd , fcgi_stdin_header , 8 , 0);
+	send(serv.fcgi_fd , fcgi_stdin_header , 8 , MSG_NOSIGNAL);
 
 }
 

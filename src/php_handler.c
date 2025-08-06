@@ -37,6 +37,7 @@ size_t send_header_get_padding(int client_fd , char *resp)
 
 void send_resp(int client_fd, char *resp)
 {
+	printf("whole header : \n %s", resp);
 	char status[64] = "200 OK";
 	char *header_end = strstr(resp, "\r\n\r\n");
 	if (!header_end)
@@ -79,7 +80,7 @@ void send_resp(int client_fd, char *resp)
 	}
 	// Send HTTP status line and headers (including cookies)
 
-	printf("============header===============\nHTTP/1.1 %s\r\n%s%s\r\n\r\n", status, headers, cookie_buffer);
+	printf("============header===============\nHTTP/1.1 %s\r\n%s\ncookie:\n%s\r\n\r\n", status, headers, cookie_buffer);
 	dprintf(client_fd, "HTTP/1.1 %s\r\n%s%s\r\n\r\n", status, headers, cookie_buffer);
 	char *body = header_end + ((header_end[1] == '\n') ? 2 : 4);
 	write(client_fd, body, strlen(body));

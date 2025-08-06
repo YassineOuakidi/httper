@@ -9,7 +9,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <netinet/in.h>
-#include "../libft/libft.h"
 #include <sys/epoll.h>
 #include <ctype.h>
 #include <dirent.h>
@@ -17,6 +16,8 @@
 #include <sys/sendfile.h>
 #include "get_next_line.h"
 #include "./fcgi.h"
+#include "../libft/libft.h"
+#include "./secure.h"
 
 #define BUFF_SIZE 1024 * 1024
 #define PORT 7777
@@ -24,7 +25,10 @@
 #define POST 1
 #define GET 0
 
-struct form_data
+
+//structs
+
+struct pair
 {
 	char* key;
 	char* value;
@@ -45,15 +49,9 @@ struct request
 	int is_binary;
 	char *mime;
 	char *cookie;
-	struct form_data data[100];
+	struct pair data[100];
 };
-struct connection
-{
-	struct request req;
-	int client_fd;
-	int state; // 0 read header ,, 1 read body
-	int bytes_read;
-};
+
 
 struct server{
 	int socket_fd;
@@ -65,7 +63,14 @@ struct server{
 	int php_cgi_port;
 };
 
+
+//global vars
+
 extern struct server serv;
+
+
+// functions
+
 
 void set_nonblocking(int fd);
 
@@ -75,7 +80,8 @@ void setup_epoll();
 
 int process_req(int client_fd);
 char *read_req(int client_fd);
-struct request parse_req(char *buff);
+struct request parse_req(int client_fd , char *buff);
+char *decode(char *str);
 void parse_body(char *buffer , struct request *req);
 void process_formdata(struct request **req);
 void process_urlencoded(struct request **req);
@@ -87,7 +93,7 @@ void send_tree(int client_fd , char *url);
 void send_header(int client_fd , char *mime);
 void handle_php(int client_fd , struct request req);
 
-
 void free_mat(char **mat);
 void free_req(struct request req);
+
 #endif

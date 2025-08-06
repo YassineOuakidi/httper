@@ -37,18 +37,38 @@ int process_req(int client_fd)
 	if(!req_buffer)
 		return 0;
 	
-	struct request req = parse_req(req_buffer);
+	struct request req = parse_req(client_fd , req_buffer);
+
+	char *query_string_decoded = decode(req.query_string);
+
+	free(req.query_string);
+
+	req.query_string = ft_strdup(query_string_decoded);
+
+	printf("query string decoded : %s\n" , query_string_decoded);
+
+	free(query_string_decoded);
 	
 	if(req.content_len>0)
 	{
 		parse_body(req_buffer , &req);
 		process_body(&req);
 	}
-	
+
 	print_request(req);
 	
+	int secured = secure(req);
+
+	printf("security check : %d\n" , secured);
+
+	if(secured == 0)
+	{
+		send_error(client_fd);
+		return 0;
+	}
+
 	free(req_buffer);
 	
 	response(client_fd , req);
-	return req.keep_alive;
+	return 1;
 }

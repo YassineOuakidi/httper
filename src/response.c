@@ -7,6 +7,7 @@ void send_header(int client_fd, char *mime)
 	char header[256];
 	snprintf(header, sizeof(header),
 		"HTTP/1.1 200 OK\r\n"
+		"Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'\r\n"
 		"%s"
 		"Connection: close\r\n"
 		"\r\n",

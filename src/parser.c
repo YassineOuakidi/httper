@@ -33,8 +33,10 @@ void get_method_url_querystr(struct request *req , char *str)
 {
 	char **splited = ft_split(str , ' ');
 	req->method = (strcmp(splited[0] , "POST")==0) ? POST : GET;
+	
 	char **url_splited = ft_split(splited[1] , '?');
 	
+
 	if(url_splited[0][ft_strlen("/templates")] && strncmp("/templates" , url_splited[0] , ft_strlen("/templates")) == 0)
 		req->url = ft_strdup(url_splited[0]) + ft_strlen("/templates");
 	else
@@ -45,7 +47,7 @@ void get_method_url_querystr(struct request *req , char *str)
 	{
 		char *tmp_join = ft_strdup(req->query_string);
 		free(req->query_string);
-		req->query_string = ft_strjoin(tmp_join , url_splited[i]);
+		req->query_string = ft_strjoin(tmp_join , (url_splited[i]));
 		free(tmp_join);
 		i++;
 	}
@@ -104,7 +106,7 @@ void get_mime_type(struct request *req, char *url)
 
 }
 
-struct request parse_req(char *buff)
+struct request parse_req(int client_fd , char *buff)
 {
 	size_t 		j = 0 , i = 0;
 	char **splited = ft_split(buff , '\n');
@@ -115,7 +117,9 @@ struct request parse_req(char *buff)
 	{
 		j+=ft_strlen(splited[i]);
 		if(i == 0)
+		{
 			get_method_url_querystr(&req , splited[i]);
+		}
 		else if(strncmp("Content-Length:" , splited[i] , ft_strlen("content-length:")) == 0)
 			get_content_len(&req , splited[i]);
 		else if(strncmp("Content-Type:" , splited[i] , ft_strlen("content-type:")) == 0)

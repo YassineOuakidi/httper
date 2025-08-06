@@ -1,6 +1,6 @@
 # Compiler and Flags
 CC       = gcc
-CFLAGS   = -Wextra  -Iinc -Ilibft
+CFLAGS   = -Wextra  -Ilibft
 LDFLAGS  = -Llibft -lft
 
 # Project Name
@@ -9,7 +9,8 @@ NAME     = server
 # Sources and Objects
 SRC_DIR  = src
 FCGI_DIR = fcgi
-SRCS     = main.c $(wildcard $(SRC_DIR)/*.c) $(wildcard $(FCGI_DIR)/*.c) 
+SECURE_DIR = security
+SRCS     = main.c $(wildcard $(SRC_DIR)/*.c) $(wildcard $(FCGI_DIR)/*.c) $(wildcard $(SECURE_DIR)/*.c) 
 OBJS     = $(SRCS:.c=.o)
 
 # Default Target

@@ -2,6 +2,48 @@
 
 #include "../inc/http.h"
 
+static char hex_to_char(char a, char b)
+{
+	if (!isxdigit(a) || !isxdigit(b))
+		return 0;
+
+	char hex[3] = { a, b, '\0' };
+	return (char)strtol(hex, NULL, 16);
+}
+
+char *decode(char *str)
+{
+	if (!str)
+		return NULL;
+
+	size_t len = strlen(str);
+
+	char *decoded = malloc(len + 1);
+	if (!decoded)
+		return NULL;
+
+	char *dst = decoded;
+
+	for (size_t i = 0; i < len; i++)
+	{
+		if (str[i] == '%' && i+2 < len && isxdigit(str[i + 1]) && isxdigit(str[i + 2]))
+		{
+			*dst++ = hex_to_char(str[i + 1], str[i + 2]);
+			i += 2;
+		}
+		else if (str[i] == '+')
+		{
+			*dst++ = ' ';
+		}
+		else
+		{
+			*dst++ = str[i];
+		}
+	}
+	*dst = '\0';
+
+	return decoded;
+}
 
 void process_urlencoded(struct request **req)
 {
@@ -15,9 +57,10 @@ void process_urlencoded(struct request **req)
 		char **key_value = ft_split(splited[i] , '=');
 		if (key_value && key_value[0] && key_value[1])
 		{
-			(*req)->data[i].key = ft_strdup(key_value[0]);
-			(*req)->data[i].value = ft_strdup(key_value[1]);
+			(*req)->data[i].key = decode(key_value[0]);
+			(*req)->data[i].value = decode(key_value[1]);
 		}
+	
 		free_mat(key_value);
 		i++;
 	}
@@ -78,7 +121,7 @@ void process_formdata(struct request **req)
 		{
 
 			char **tmp = ft_split(trimed , '=');
-			(*req)->data[order].key = ft_strdup(tmp[1]);
+			(*req)->data[order].key = decode(tmp[1]);
 			i+=2;
 
 
