@@ -97,7 +97,6 @@ myHTTP/
 
 ## Known Issues and Limitations
 
-*(Note: A detailed analysis report with specific file names and suggested fixes is available in `myHTTP_analysis_report.pdf`.)*
 
 Based on a comprehensive code analysis, the `myHTTP` project has several areas that require attention for improved stability, security, and performance. Key issues include:
 
